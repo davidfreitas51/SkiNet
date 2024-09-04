@@ -29,10 +29,15 @@ namespace SkiNet.Infrastructure.Repositories
             return await ApplySpecifications(spec).FirstOrDefaultAsync();
         }
 
-        public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
+        public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec, int itemsPerPage, int pageNumber)
         {
-            return await ApplySpecifications(spec).ToListAsync();
+            var query = ApplySpecifications(spec);
+            var skip = (pageNumber - 1) * itemsPerPage;
+            query = query.Skip(skip).Take(itemsPerPage);
+
+            return await query.ToListAsync();
         }
+
 
         private IQueryable<T> ApplySpecifications(ISpecification<T> spec)
         {
