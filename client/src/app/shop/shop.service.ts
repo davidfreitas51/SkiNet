@@ -17,15 +17,15 @@ export class ShopService {
     let params = new HttpParams()
       .set('itemsPerPage', '50')
       .set('pageNumber', '1');
-      
-    if (shopParams.sort){
-      params = params.append('sort', shopParams.sort)
-    }
-    if (shopParams.brandId) {
+
+
+    params = params.append('sort', shopParams.sort)
+    
+    if (shopParams.brandId !== 0) {
       params = params.append('brandId', shopParams.brandId.toString());
     }
   
-    if (shopParams.typeId) {
+    if (shopParams.typeId !== 0) {
       params = params.append('typeId', shopParams.typeId.toString());
     }
   
