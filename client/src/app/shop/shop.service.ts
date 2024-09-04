@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { IProduct } from '../shared/models/product';
 import { IBrand } from '../shared/models/brands';
 import { IType } from '../shared/models/productType';
+import { ShopParams } from '../shared/models/shopParams';
 
 @Injectable({
   providedIn: 'root'
@@ -12,22 +13,24 @@ export class ShopService {
 
   constructor(private http: HttpClient) { } 
 
-  getProducts(brandId?: number, typeId?: number) {
+  getProducts(shopParams: ShopParams) {
     let params = new HttpParams()
-      .set('sort', 'nameAsc')
       .set('itemsPerPage', '50')
       .set('pageNumber', '1');
-  
-    if (brandId) {
-      params = params.append('brandId', brandId.toString());
+      
+    if (shopParams.sort){
+      params = params.append('sort', shopParams.sort)
+    }
+    if (shopParams.brandId) {
+      params = params.append('brandId', shopParams.brandId.toString());
     }
   
-    if (typeId) {
-      params = params.append('typeId', typeId.toString());
+    if (shopParams.typeId) {
+      params = params.append('typeId', shopParams.typeId.toString());
     }
   
     return this.http.get<IProduct[]>(this.baseUrl + 'products', { params });
-  }  
+  }   
 
   getBrands(){
     return this.http.get<IBrand[]>(this.baseUrl + 'products/brands')
