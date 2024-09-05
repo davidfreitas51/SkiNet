@@ -28,7 +28,10 @@ export class ShopService {
     if (shopParams.typeId !== 0) {
       params = params.append('typeId', shopParams.typeId.toString());
     }
-  
+
+    if (shopParams.search){
+      params = params.append('search', shopParams.search)
+    }
     return this.http.get<IProduct[]>(this.baseUrl + 'products', { params });
   }   
 

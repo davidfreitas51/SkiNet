@@ -25,10 +25,10 @@ namespace SkiNet.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDTO>>> GetAllProducts(string sort, int itemsPerPage, int pageNumber, int? brandId, int? typeId)
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDTO>>> GetAllProducts(string sort, int itemsPerPage, int pageNumber, int? brandId, int? typeId, string? search = "")
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(sort, brandId, typeId);
-            var products = await _productsRepo.ListAsync(spec, itemsPerPage, pageNumber);
+            var products = await _productsRepo.ListAsync(spec, itemsPerPage, pageNumber, search);
 
             return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDTO>>(products));
         }
