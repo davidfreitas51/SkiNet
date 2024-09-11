@@ -9,7 +9,7 @@ import { ActivatedRoute, Route } from '@angular/router';
   styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit {
-  product: IProduct
+  product: IProduct | null = null;
 
   constructor(private shopService: ShopService, private activatedRoute: ActivatedRoute) { }
 
@@ -18,10 +18,11 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   loadProduct(){
-    this.shopService.getProduct(+this.activatedRoute.snapshot.paramMap.get('id')).subscribe(product =>{
-      this.product = product
+    this.shopService.getProduct(+this.activatedRoute.snapshot.paramMap.get('id')).subscribe(product => {
+      this.product = product;
     }, error => {
       console.log(error);
-    })
+    });
   }
 }
+
